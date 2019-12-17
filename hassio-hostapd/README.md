@@ -26,7 +26,8 @@ The available configuration options are as follows (this is filled in with some 
     "channel": "6",
     "address": "192.168.99.1",
     "netmask": "255.255.255.0",
-    "broadcast": "192.168.99.254"
+    "broadcast": "192.168.99.254",
+	"hide_ap": true
 }
 ```
 **Note**: _This is just an example, don't copy and paste it! Create your own!_

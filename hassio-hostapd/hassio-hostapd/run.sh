@@ -25,6 +25,7 @@ CHANNEL=$(jq --raw-output ".channel" $CONFIG_PATH)
 ADDRESS=$(jq --raw-output ".address" $CONFIG_PATH)
 NETMASK=$(jq --raw-output ".netmask" $CONFIG_PATH)
 BROADCAST=$(jq --raw-output ".broadcast" $CONFIG_PATH)
+HIDEAP=$(jq --raw-output ".hide_ap" $CONFIG_PATH)
 
 # Enforces required env variables
 required_vars=(SSID WPA_PASSPHRASE CHANNEL ADDRESS NETMASK BROADCAST)
@@ -44,6 +45,11 @@ echo "Setup hostapd ..."
 echo "ssid=$SSID"$'\n' >> /hostapd.conf
 echo "wpa_passphrase=$WPA_PASSPHRASE"$'\n' >> /hostapd.conf
 echo "channel=$CHANNEL"$'\n' >> /hostapd.conf
+
+if [ "$HIDEAP" = true ]; then
+# Modify hostapd.conf to hide AP-ssid
+	sed -i 's/ignore_broadcast_ssid=0/ignore_broadcast_ssid=1/g' hostapd.conf
+fi
 
 # Setup interface
 echo "Setup interface ..."
