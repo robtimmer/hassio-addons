@@ -63,6 +63,12 @@ echo "address $ADDRESS"$'\n' >> /etc/network/interfaces
 echo "netmask $NETMASK"$'\n' >> /etc/network/interfaces
 echo "broadcast $BROADCAST"$'\n' >> /etc/network/interfaces
 
+# Create a brigde to access local network via this access point
+if [ "$BRIDGE" = true ]; then
+	echo "# networkbridge\nauto br0\niface br0 inet manual\nbridge_ports eth0 wlan0\nbridge_fd 0\nbridge_stp off\n" >> /etc/network/interfaces
+fi
+# In addition to the bridge-device forwarding rules à la iptables will be needed
+
 ifdown wlan0
 ifup wlan0
 
