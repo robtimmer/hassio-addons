@@ -3,9 +3,9 @@
 # SIGTERM-handler this funciton will be executed when the container receives the SIGTERM signal (when stopping)
 term_handler(){
 	echo "Stopping..."
-	ifdown wlan0
-	ip link set wlan0 down
-	ip addr flush dev wlan0
+	ifdown wlan1
+	ip link set wlan1 down
+	ip addr flush dev wlan1
 	exit 0
 }
 
@@ -15,7 +15,7 @@ trap 'term_handler' SIGTERM
 echo "Starting..."
 
 echo "Set nmcli managed no"
-nmcli dev set wlan0 managed no
+nmcli dev set wlan1 managed no
 
 CONFIG_PATH=/data/options.json
 
@@ -54,10 +54,10 @@ fi
 # Setup interface
 echo "Setup interface ..."
 
-#ip link set wlan0 down
-#ip addr flush dev wlan0
-#ip addr add ${IP_ADDRESS}/24 dev wlan0
-#ip link set wlan0 up
+#ip link set wlan1 down
+#ip addr flush dev wlan1
+#ip addr add ${IP_ADDRESS}/24 dev wlan1
+#ip link set wlan1 up
 
 echo "address $ADDRESS"$'\n' >> /etc/network/interfaces
 echo "netmask $NETMASK"$'\n' >> /etc/network/interfaces
@@ -69,8 +69,8 @@ if [ "$BRIDGE" = true ]; then
 fi
 # In addition to the bridge-device forwarding rules à la iptables will be needed
 
-ifdown wlan0
-ifup wlan0
+ifdown wlan1
+ifup wlan1
 
 echo "Starting HostAP daemon ..."
 hostapd -d /hostapd.conf & wait ${!}
